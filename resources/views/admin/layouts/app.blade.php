@@ -10,9 +10,10 @@
         .sidebar {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             position: fixed;
             z-index: 40;
+            width: 16rem;
         }
         .sidebar-item {
             transition: all 0.3s;
@@ -29,7 +30,8 @@
         .content-wrapper {
             background: #f3f4f6;
             margin-left: 16rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            width: calc(100% - 16rem);
         }
         .header {
             background: white;
@@ -57,18 +59,43 @@
         .dropdown-menu.show {
             display: block;
         }
+        .mobile-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 30;
+        }
+        .mobile-backdrop.show {
+            display: block;
+        }
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
+                width: 80%;
+                max-width: 300px;
             }
             .sidebar.show {
                 transform: translateX(0);
             }
             .content-wrapper {
                 margin-left: 0;
+                width: 100%;
             }
             .content-wrapper.sidebar-open {
-                margin-left: 16rem;
+                margin-left: 0;
+            }
+            .table-responsive {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -79,6 +106,9 @@
         <button id="mobile-menu-button" class="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md text-gray-300 hover:text-white focus:outline-none">
             <i class="fas fa-bars text-xl"></i>
         </button>
+        
+        <!-- Mobile Backdrop -->
+        <div id="mobile-backdrop" class="mobile-backdrop"></div>
         
         <div class="flex h-screen">
             @include('admin.partials.sidebar')
@@ -106,7 +136,7 @@
                                 <div class="relative ml-4">
                                     <button id="user-menu-button" class="flex items-center text-gray-300 hover:text-white">
                                         <img src="https://ui-avatars.com/api/?name=Admin&background=4f46e5&color=fff" class="h-8 w-8 rounded-full" alt="Admin">
-                                        <span class="ml-2">Admin</span>
+                                        <span class="ml-2 hidden sm:inline">Admin</span>
                                         <i class="fas fa-chevron-down ml-2"></i>
                                     </button>
                                     <div id="user-menu" class="dropdown-menu">
@@ -147,7 +177,15 @@
             // Mobile menu toggle
             $('#mobile-menu-button').click(function() {
                 $('.sidebar').toggleClass('show');
-                $('.content-wrapper').toggleClass('sidebar-open');
+                $('#mobile-backdrop').toggleClass('show');
+                $('body').toggleClass('overflow-hidden');
+            });
+            
+            // Close sidebar when clicking on backdrop
+            $('#mobile-backdrop').click(function() {
+                $('.sidebar').removeClass('show');
+                $('#mobile-backdrop').removeClass('show');
+                $('body').removeClass('overflow-hidden');
             });
 
             // Toggle user menu
@@ -159,6 +197,15 @@
             $(document).click(function(event) {
                 if (!$(event.target).closest('#user-menu-button').length) {
                     $('#user-menu').removeClass('show');
+                }
+            });
+            
+            // Close sidebar when window is resized to desktop size
+            $(window).resize(function() {
+                if ($(window).width() > 768) {
+                    $('.sidebar').removeClass('show');
+                    $('#mobile-backdrop').removeClass('show');
+                    $('body').removeClass('overflow-hidden');
                 }
             });
         });

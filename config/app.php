@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -123,7 +126,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'providers' => [
+    'providers' => ServiceProvider::defaultProviders()->merge([
         /*
          * Laravel Framework Service Providers...
          */
@@ -153,6 +156,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -163,6 +167,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\SettingsServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
-    ],
+    ])->toArray(),
+
+    'aliases' => Facade::defaultAliases()->merge([
+        // 'Example' => App\Facades\Example::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+    ])->toArray(),
 
 ];

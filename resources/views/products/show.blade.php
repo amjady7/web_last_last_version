@@ -71,18 +71,18 @@
                     </div>
                 </div>
 
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="add-to-cart-form">
+                <form action="{{ route('cart.add', $product) }}" method="POST" class="add-to-cart-form" id="addToCartForm">
                     @csrf
                     <div class="row align-items-center mb-4">
                         <div class="col-auto">
                             <div class="input-group" style="width: 150px;">
-                                <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity()">-</button>
-                                <input type="number" class="form-control text-center" name="quantity" value="1" min="1" max="{{ $product->stock }}" id="quantity">
-                                <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity()">+</button>
+                                <button class="btn btn-outline-secondary quantity-btn" type="button" data-action="decrease">-</button>
+                                <input type="number" class="form-control text-center quantity-input" name="quantity" value="1" min="1" max="{{ $product->stock }}" id="quantity">
+                                <button class="btn btn-outline-secondary quantity-btn" type="button" data-action="increase">+</button>
                             </div>
                         </div>
                         <div class="col">
-                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <button type="submit" class="btn btn-warning btn-lg w-100 add-to-cart-btn">
                                 <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                             </button>
                         </div>
@@ -90,10 +90,10 @@
                 </form>
 
                 <div class="product-actions">
-                    <button class="btn btn-outline-secondary me-2" onclick="addToWishlist({{ $product->id }})">
+                    <button class="btn btn-outline-warning me-2" onclick="addToWishlist({{ $product->id }})">
                         <i class="far fa-heart me-2"></i>Add to Wishlist
                     </button>
-                    <button class="btn btn-outline-secondary" onclick="shareProduct()">
+                    <button class="btn btn-outline-warning" onclick="shareProduct()">
                         <i class="fas fa-share-alt me-2"></i>Share
                     </button>
                 </div>
@@ -190,20 +190,92 @@
         });
     }
 
-    function increaseQuantity() {
-        const input = document.getElementById('quantity');
-        const max = parseInt(input.max);
-        if(parseInt(input.value) < max) {
-            input.value = parseInt(input.value) + 1;
-        }
-    }
+    // Handle quantity buttons
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = document.getElementById('quantity');
+            const currentValue = parseInt(input.value);
+            const action = this.dataset.action;
+            
+            if (action === 'increase' && currentValue < parseInt(input.max)) {
+                input.value = currentValue + 1;
+            } else if (action === 'decrease' && currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        });
+    });
 
-    function decreaseQuantity() {
-        const input = document.getElementById('quantity');
-        if(parseInt(input.value) > 1) {
-            input.value = parseInt(input.value) - 1;
+    // Handle quantity input validation
+    document.getElementById('quantity').addEventListener('change', function() {
+        let value = parseInt(this.value);
+        const max = parseInt(this.max);
+        if (isNaN(value) || value < 1) value = 1;
+        if (value > max) value = max;
+        this.value = value;
+    });
+
+    // Handle add to cart form submission
+    document.getElementById('addToCartForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitButton = this.querySelector('.add-to-cart-btn');
+        const originalText = submitButton.innerHTML;
+        const quantity = document.getElementById('quantity').value;
+        
+        // Show loading state
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...';
+
+        try {
+            const response = await fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    quantity: quantity
+                })
+            });
+
+            if (response.status === 401) {
+                // Store the current URL to redirect back after login
+                sessionStorage.setItem('intended_url', window.location.href);
+                window.location.href = '/login';
+                return;
+            }
+
+            const data = await response.json();
+            console.log('Server response:', data);
+
+            if (data.success) {
+                // Update cart count
+                const cartCountElements = document.querySelectorAll('.cart-count');
+                cartCountElements.forEach(element => {
+                    element.textContent = data.cartCount;
+                    element.dataset.cartCount = data.cartCount;
+                    element.classList.add('updated');
+                    setTimeout(() => element.classList.remove('updated'), 200);
+                });
+
+                // Show success toast
+                const toast = new bootstrap.Toast(document.getElementById('cartToast'));
+                toast.show();
+
+                // Reset quantity to 1
+                document.getElementById('quantity').value = 1;
+            } else {
+                alert('Error adding to cart: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error adding to cart. Please try again.');
+        } finally {
+            // Reset button state
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
         }
-    }
+    });
 
     function addToWishlist(productId) {
         // Implement wishlist functionality

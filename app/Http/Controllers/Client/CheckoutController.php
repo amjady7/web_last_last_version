@@ -16,6 +16,11 @@ class CheckoutController extends Controller
 
     public function index()
     {
+        // Check if user is admin
+        if (auth()->user()->is_admin) {
+            return redirect()->route('cart.index')->with('error', 'You are an admin! You cannot buy from your own shop - you own it! 😊');
+        }
+
         $cart = $this->cart->getCart();
         
         if (empty($cart['products'])) {
@@ -30,6 +35,11 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
+        // Check if user is admin
+        if (auth()->user()->is_admin) {
+            return redirect()->route('cart.index')->with('error', 'You are an admin! You cannot buy from your own shop - you own it! 😊');
+        }
+
         // Validate the request
         $request->validate([
             'name' => 'required|string|max:255',

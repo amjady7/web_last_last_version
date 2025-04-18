@@ -88,9 +88,9 @@
             <div class="space-y-4">
                 <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('home') }}" class="hover:text-blue-400">Home</a></li>
-                    <li><a href="{{ route('products.index') }}" class="hover:text-blue-400">Products</a></li>
-                    <li><a href="{{ route('contact') }}" class="hover:text-blue-400">Contact</a></li>
+                    <li><a href="{{ route('home') }}" class="text-white hover:text-orange-400 transition duration-300">Home</a></li>
+                    <li><a href="{{ route('products.index') }}" class="text-white hover:text-orange-400 transition duration-300">Products</a></li>
+                    <li><a href="{{ route('contact') }}" class="text-white hover:text-orange-400 transition duration-300">Contact</a></li>
                 </ul>
             </div>
 
@@ -100,27 +100,27 @@
                 <div class="social-icons flex justify-center space-x-4">
                     @if(isset($settings))
                         @if($settings->facebook_url)
-                            <a href="{{ $settings->facebook_url }}" class="text-white hover:text-blue-400" target="_blank">
+                            <a href="{{ $settings->facebook_url }}" class="text-white hover:text-orange-400 transition duration-300" target="_blank">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                         @endif
                         @if($settings->twitter_url)
-                            <a href="{{ $settings->twitter_url }}" class="text-white hover:text-blue-400" target="_blank">
+                            <a href="{{ $settings->twitter_url }}" class="text-white hover:text-orange-400 transition duration-300" target="_blank">
                                 <i class="fab fa-twitter"></i>
                             </a>
                         @endif
                         @if($settings->instagram_url)
-                            <a href="{{ $settings->instagram_url }}" class="text-white hover:text-blue-400" target="_blank">
+                            <a href="{{ $settings->instagram_url }}" class="text-white hover:text-orange-400 transition duration-300" target="_blank">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         @endif
                         @if($settings->linkedin_url)
-                            <a href="{{ $settings->linkedin_url }}" class="text-white hover:text-blue-400" target="_blank">
+                            <a href="{{ $settings->linkedin_url }}" class="text-white hover:text-orange-400 transition duration-300" target="_blank">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
                         @endif
                         @if($settings->youtube_url)
-                            <a href="{{ $settings->youtube_url }}" class="text-white hover:text-blue-400" target="_blank">
+                            <a href="{{ $settings->youtube_url }}" class="text-white hover:text-orange-400 transition duration-300" target="_blank">
                                 <i class="fab fa-youtube"></i>
                             </a>
                         @endif

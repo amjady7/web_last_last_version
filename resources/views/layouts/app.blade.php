@@ -49,6 +49,22 @@ use App\Facades\Cart;
                 --border-color: #404040;
             }
 
+            .text-orange-400 {
+                color: var(--primary-color) !important;
+            }
+
+            .bg-orange-400 {
+                background-color: var(--primary-color) !important;
+            }
+
+            .bg-orange-50 {
+                background-color: #FFF8F0 !important;
+            }
+
+            .hover\:bg-orange-500:hover {
+                background-color: var(--secondary-color) !important;
+            }
+
             body {
                 font-family: 'Figtree', sans-serif;
                 margin: 0;
@@ -85,7 +101,7 @@ use App\Facades\Cart;
             }
 
             .nav-logo {
-                max-height: 40px;
+                max-height: 60px;
                 width: auto;
             }
 
@@ -355,6 +371,34 @@ use App\Facades\Cart;
                     height: 50px;
                 }
             }
+
+            /* Toast Notification */
+            .toast-header {
+                background-color: var(--primary-color) !important;
+                color: white !important;
+            }
+
+            .btn-warning {
+                background-color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+                color: white !important;
+            }
+
+            .btn-warning:hover {
+                background-color: var(--dark-gray) !important;
+                border-color: var(--dark-gray) !important;
+                color: white !important;
+            }
+
+            .btn-outline-warning {
+                color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+            }
+
+            .btn-outline-warning:hover {
+                background-color: var(--primary-color) !important;
+                color: white !important;
+            }
         </style>
 
         @stack('styles')
@@ -441,13 +485,16 @@ use App\Facades\Cart;
                     <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Products</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
                 </li>
                 @auth
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('cart.*') ? 'active' : '' }}" href="{{ route('cart.index') }}">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge">{{ Cart::count() }}</span>
+                            <span class="cart-count" data-cart-count="{{ Cart::count() }}">{{ Cart::count() }}</span>
                         </a>
                     </li>
                 @endauth

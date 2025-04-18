@@ -2,6 +2,27 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal" tabindex="-1" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Admin Notice
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>You are an admin! You cannot buy from your own shop - you own it! 😊</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1 class="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
 
     @if(session('success'))
@@ -51,9 +72,20 @@
             <div class="p-4 bg-gray-50">
                 <div class="flex justify-between items-center">
                     <span class="text-lg font-semibold">Total: ${{ number_format($total, 2) }}</span>
-                    <a href="{{ route('checkout') }}" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors">
-                        Proceed to Checkout
-                    </a>
+                    <div class="flex gap-4">
+                        <a href="{{ route('products.index') }}" class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition-colors">
+                            Continue Shopping
+                        </a>
+                        @if(auth()->user()->is_admin)
+                            <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors" onclick="alert('You are an admin! You cannot buy from your own shop - you own it!')">
+                                Proceed to Checkout
+                            </button>
+                        @else
+                            <a href="{{ route('checkout') }}" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors">
+                                Proceed to Checkout
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,4 +98,13 @@
         </div>
     @endif
 </div>
+
+@push('scripts')
+<script>
+    function showAdminModal() {
+        var modal = new bootstrap.Modal(document.getElementById('adminModal'));
+        modal.show();
+    }
+</script>
+@endpush
 @endsection 

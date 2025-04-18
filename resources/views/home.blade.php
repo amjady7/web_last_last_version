@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Banner Slider -->
-<section id="Gslider" class="carousel slide" data-bs-ride="carousel">
+<section id="Gslider" class="carousel slide" data-bs-ride="carousel" style="height: 600px; margin-bottom: 20px; margin-top:10px;">
     <div class="carousel-indicators">
         @foreach($banners as $key => $banner)
             <button type="button" data-bs-target="#Gslider" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}"></button>
@@ -13,11 +13,11 @@
     <div class="carousel-inner">
         @foreach($banners as $key => $banner)
             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                <img src="{{ $banner->image_url }}" class="d-block w-100" alt="{{ $banner->title }}">
-                <div class="carousel-caption">
-                    <h1>{{ $banner->title }}</h1>
-                    <p>{{ $banner->description }}</p>
-                    <a href="{{ route('products.index') }}"  class="btn btn-primary">Shop Now</a>
+                <img src="{{ $banner->image_url }}" class="d-block w-100" alt="{{ $banner->title }}" style="height: 600px; object-fit: cover;">
+                <div class="carousel-caption text-start" style="left: 10%; right: 50%; top: 50%; transform: translateY(-50%);">
+                    <h1 class="text-dark">{{ $banner->title }}</h1>
+                    <p class="text-dark">{{ $banner->description }}</p>
+                    <a href="{{ route('products.index') }}" class="btn btn-warning" style="font-size: 30px; padding: 15px 30px;">Shop Now</a>
                 </div>
             </div>
         @endforeach
@@ -40,7 +40,7 @@
                         <img src="{{ $category->image_url }}" alt="{{ $category->name }}">
                         <div class="content">
                             <h3 style="color: black;">{{ $category->name }}</h3>
-                            <a href="{{ route('products.category', $category) }}">Shop Now</a>
+                        
                         </div>
                     </div>
                 </div>
@@ -194,6 +194,19 @@
 </section>
 
 <style>
+    /* Carousel Control Arrows */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: #F7941D;
+        border-radius: 50%;
+        padding: 20px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 5%;
+    }
+
     /* Product Card Styles */
     .product-grid {
         display: grid;

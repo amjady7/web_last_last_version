@@ -14,28 +14,26 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::query()->where('is_active', true);
+        $query = Product::query();
 
-        // Price range filter
-        if ($request->has('min_price') && $request->min_price) {
+        // Apply filters
+        if ($request->has('category')) {
+            $query->whereHas('categories', function($q) use ($request) {
+                $q->where('categories.id', $request->category);
+            });
+        }
+
+        if ($request->has('min_price')) {
             $query->where('price', '>=', $request->min_price);
         }
-        if ($request->has('max_price') && $request->max_price) {
+
+        if ($request->has('max_price')) {
             $query->where('price', '<=', $request->max_price);
         }
 
-        // Category filter
-        if ($request->has('categories') && !empty($request->categories)) {
-            $query->whereIn('category_id', $request->categories);
-        }
-
-        // Brand filter
-        if ($request->has('brands') && !empty($request->brands)) {
-            $query->whereIn('brand_id', $request->brands);
-        }
-
-        // Sorting
-        switch ($request->get('sort', 'latest')) {
+        // Apply sorting
+        $sort = $request->get('sort', 'newest');
+        switch ($sort) {
             case 'price_asc':
                 $query->orderBy('price', 'asc');
                 break;
@@ -53,11 +51,18 @@ class ProductController extends Controller
         }
 
         $products = $query->paginate(12);
-        $categories = Category::where('is_active', true)->get();
+        $categories = Category::all();
         $brands = Brand::where('is_active', true)->get();
 
+        // If it's an AJAX request, return JSON response
         if ($request->ajax()) {
-            return view('products.partials.grid', compact('products'))->render();
+            $view = view('products.partials.grid', compact('products'))->render();
+            $pagination = view('components.pagination', ['paginator' => $products])->render();
+
+            return response()->json([
+                'html' => $view,
+                'pagination' => $pagination
+            ]);
         }
 
         return view('products.index', compact('products', 'categories', 'brands'));
@@ -69,10 +74,11 @@ class ProductController extends Controller
             abort(404);
         }
 
-        $relatedProducts = Product::where('category_id', $product->category_id)
-            ->where('id', '!=', $product->id)
-            ->where('is_active', true)
-            ->take(4)
+        $relatedProducts = Product::where('id', '!=', $product->id)
+            ->whereHas('categories', function($query) use ($product) {
+                $query->whereIn('categories.id', $product->categories->pluck('id'));
+            })
+            ->limit(4)
             ->get();
 
         return view('products.show', compact('product', 'relatedProducts'));

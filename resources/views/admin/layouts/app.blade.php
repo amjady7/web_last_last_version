@@ -122,17 +122,18 @@
                                 <!-- Logo -->
                                 <div class="shrink-0 flex items-center">
                                     <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold text-white">
-                                        E-Shop Admin
+                                    <div class="col-md-3">
+                @if(isset($settings) && $settings->site_logo)
+                <a href="{{ route('home') }}" class="text-decoration-none">
+                        <h1 class="h3 mb-0">{{ isset($settings) ? $settings->site_title : config('app.name') }}</h1>
+                    </a>
+                @endif
+            </div>
                                     </a>
                                 </div>
                             </div>
                             <div class="flex items-center">
-                                <div class="relative">
-                                    <button class="flex items-center text-gray-300 hover:text-white">
-                                        <i class="fas fa-bell text-xl"></i>
-                                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                                    </button>
-                                </div>
+                                
                                 <div class="relative ml-4">
                                     <button id="user-menu-button" class="flex items-center text-gray-300 hover:text-white">
                                         <img src="https://ui-avatars.com/api/?name=Admin&background=4f46e5&color=fff" class="h-8 w-8 rounded-full" alt="Admin">

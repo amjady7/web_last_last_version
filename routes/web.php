@@ -14,6 +14,7 @@ use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\ContactController;
 
 // Public routes

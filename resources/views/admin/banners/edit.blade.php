@@ -11,7 +11,8 @@
 
             <div class="mb-4">
                 <label for="title" class="block text-sm font-medium text-gray-300">Title</label>
-                <input type="text" name="title" id="title" value="{{ old('title', $banner->title) }}" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required>
+                <input type="text" name="title" id="title" value="{{ old('title', $banner->title) }}" 
+                    class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required>
                 @error('title')
                     <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                 @enderror
@@ -19,7 +20,8 @@
 
             <div class="mb-4">
                 <label for="description" class="block text-sm font-medium text-gray-300">Description</label>
-                <textarea name="description" id="description" rows="3" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">{{ old('description', $banner->description) }}</textarea>
+                <textarea name="description" id="description" rows="3" 
+                    class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">{{ old('description', $banner->description) }}</textarea>
                 @error('description')
                     <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                 @enderror
@@ -27,8 +29,11 @@
 
             <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-300">Current Image</label>
-                <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}" class="h-32 w-32 object-cover rounded-lg mb-2">
-                <input type="file" name="image" id="image" class="mt-1 block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-700 file:text-gray-300 hover:file:bg-gray-600">
+                @if($banner->image)
+                    <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}" class="h-32 w-32 object-cover rounded-lg mb-2">
+                @endif
+                <input type="file" name="image" id="image" 
+                    class="mt-1 block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-700 file:text-gray-300 hover:file:bg-gray-600">
                 @error('image')
                     <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                 @enderror
@@ -36,7 +41,8 @@
 
             <div class="mb-4">
                 <label for="link" class="block text-sm font-medium text-gray-300">Link (optional)</label>
-                <input type="url" name="link" id="link" value="{{ old('link', $banner->link) }}" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                <input type="url" name="link" id="link" value="{{ old('link', $banner->link) }}" 
+                    class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                 @error('link')
                     <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                 @enderror
@@ -44,7 +50,8 @@
 
             <div class="mb-4">
                 <label for="order" class="block text-sm font-medium text-gray-300">Order</label>
-                <input type="number" name="order" id="order" value="{{ old('order', $banner->order) }}" class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                <input type="number" name="order" id="order" value="{{ old('order', $banner->order) }}" 
+                    class="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                 @error('order')
                     <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                 @enderror
@@ -52,7 +59,9 @@
 
             <div class="mb-4">
                 <label class="flex items-center">
-                    <input type="checkbox" name="is_active" class="rounded bg-gray-700 border-gray-600 text-blue-500 shadow-sm focus:border-blue-500 focus:ring-blue-500" {{ old('is_active', $banner->is_active) ? 'checked' : '' }}>
+                    <input type="checkbox" name="is_active" value="1" 
+                        class="rounded bg-gray-700 border-gray-600 text-blue-500 shadow-sm focus:border-blue-500 focus:ring-blue-500" 
+                        {{ old('is_active', $banner->is_active) ? 'checked' : '' }}>
                     <span class="ml-2 text-sm text-gray-300">Active</span>
                 </label>
             </div>

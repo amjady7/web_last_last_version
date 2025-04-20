@@ -92,125 +92,111 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const cartToast = new bootstrap.Toast(document.getElementById('cartToast'), {
-        autohide: true,
-        delay: 3000
-    });
-    
-    // Function to update cart count
-    function updateCartCount(newCount) {
-        console.log('Updating cart count to:', newCount);
-        
-        // Update all cart count elements
-        const cartCountElements = document.querySelectorAll('.cart-count, .cart-badge');
-        console.log('Found cart count elements:', cartCountElements.length);
-        
-        cartCountElements.forEach(element => {
-            element.textContent = newCount;
-            if (element.dataset) {
-                element.dataset.cartCount = newCount;
-            }
-            element.classList.add('updated');
-            setTimeout(() => element.classList.remove('updated'), 200);
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartToast = new bootstrap.Toast(document.getElementById('cartToast'), {
+            autohide: true,
+            delay: 3000
         });
-
-        // Update cart count in the header
-        const headerCartCount = document.querySelector('.header-cart-count');
-        if (headerCartCount) {
-            headerCartCount.textContent = newCount;
-            headerCartCount.classList.add('updated');
-            setTimeout(() => headerCartCount.classList.remove('updated'), 200);
+        
+        // Function to update cart count
+        function updateCartCount(count) {
+            const cartCountElements = document.querySelectorAll('.cart-count, .cart-badge, .header-cart-count');
+            cartCountElements.forEach(element => {
+                element.textContent = count;
+                element.classList.add('updated');
+                setTimeout(() => element.classList.remove('updated'), 200);
+            });
         }
-    }
 
-    // Handle quantity buttons
-    document.querySelectorAll('.quantity-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const input = this.parentElement.querySelector('.quantity-input');
-            const currentValue = parseInt(input.value);
-            const action = this.dataset.action;
-            
-            if (action === 'increase' && currentValue < 99) {
-                input.value = currentValue + 1;
-            } else if (action === 'decrease' && currentValue > 1) {
-                input.value = currentValue - 1;
-            }
-        });
-    });
-
-    // Handle quantity input validation
-    document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('change', function() {
-            let value = parseInt(this.value);
-            if (isNaN(value) || value < 1) value = 1;
-            if (value > 99) value = 99;
-            this.value = value;
-        });
-    });
-
-    // Handle add to cart form submission
-    document.querySelectorAll('.add-to-cart-form').forEach(form => {
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitButton = this.querySelector('.add-to-cart-btn');
-            const originalText = submitButton.innerHTML;
-            const quantity = this.querySelector('.quantity-input').value;
-            
-            // Show loading state
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...';
-
-            try {
-                const response = await fetch(this.action, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        quantity: quantity
-                    })
-                });
-
-                if (response.status === 401) {
-                    // Store the current URL to redirect back after login
-                    sessionStorage.setItem('intended_url', window.location.href);
-                    window.location.href = '/login';
-                    return;
+        // Handle quantity buttons
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('.quantity-input');
+                const currentValue = parseInt(input.value);
+                const action = this.dataset.action;
+                
+                if (action === 'increase' && currentValue < 99) {
+                    input.value = currentValue + 1;
+                } else if (action === 'decrease' && currentValue > 1) {
+                    input.value = currentValue - 1;
                 }
+            });
+        });
+                
+        // Handle quantity input validation
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) value = 1;
+                if (value > 99) value = 99;
+                this.value = value;
+            });
+        });
 
-                const data = await response.json();
-                console.log('Server response:', data);
+        // Handle add to cart form submission
+        document.querySelectorAll('.add-to-cart-form').forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitButton = this.querySelector('.add-to-cart-btn');
+                const originalText = submitButton.innerHTML;
+                const quantity = this.querySelector('.quantity-input').value;
+                
+                // Show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...';
 
-                if (data.success) {
-                    // Update cart count immediately
-                    updateCartCount(data.cartCount);
+                try {
+                    const formData = new FormData();
+                    formData.append('quantity', quantity);
+                    formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
 
-                    // Show success toast
-                    cartToast.show();
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
 
-                    // Reset quantity to 1
-                    this.querySelector('.quantity-input').value = 1;
-                } else {
-                    alert('Error adding to cart: ' + data.message);
+                    if (response.status === 401) {
+                        // Store the current URL to redirect back after login
+                        sessionStorage.setItem('intended_url', window.location.href);
+                        window.location.href = '/login';
+                        return;
+                    }
+
+                    const data = await response.json();
+                    console.log('Server response:', data);
+
+                    if (data.success) {
+                        // Update cart count in all locations
+                        const cartCountElements = document.querySelectorAll('.cart-count, .cart-badge, .header-cart-count');
+                        cartCountElements.forEach(element => {
+                            element.textContent = data.cartCount;
+                            element.classList.add('updated');
+                            setTimeout(() => element.classList.remove('updated'), 200);
+                        });
+
+                        // Show success toast
+                        const toast = new bootstrap.Toast(document.getElementById('cartToast'));
+                        toast.show();
+
+                        // Reset quantity to 1
+                        this.querySelector('.quantity-input').value = 1;
+                    } else {
+                        console.error('Error adding to cart:', data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                } finally {
+                    // Reset button state
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Add to Cart';
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error adding to cart. Please try again.');
-            } finally {
-                // Reset button state
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'Add to Cart';
-            }
+            });
         });
     });
-});
 </script>
-@endpush
-
-<div class="mt-6">
-    {{ $products->links() }}
-</div> 
+@endpush 

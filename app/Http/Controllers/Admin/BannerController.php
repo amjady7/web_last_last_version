@@ -143,39 +143,47 @@ class BannerController extends Controller
      */
     public function update(Request $request, Banner $banner)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'link' => 'nullable|url',
-            'is_active' => 'nullable|boolean',
-            'order' => 'nullable|integer',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'link' => 'nullable|url',
+                'is_active' => 'nullable|boolean',
+                'order' => 'nullable|integer',
+            ]);
 
-        // If the user has uploaded a new image, handle the file storage
-        if ($request->hasFile('image')) {
-            // Delete the old image from storage
-            Storage::disk('public')->delete($banner->image);
+            // Handle file upload
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($banner->image && Storage::disk('public')->exists($banner->image)) {
+                    Storage::disk('public')->delete($banner->image);
+                }
 
-            // Store the new image
-            $imagePath = $request->file('image')->store('banners', 'public');
-        } else {
-            // If no new image, keep the old image
-            $imagePath = $banner->image;
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('banners', $imageName, 'public');
+                $validatedData['image'] = $imagePath;
+            }
+
+            // Convert checkbox value to boolean
+            $validatedData['is_active'] = $request->has('is_active');
+
+            // Update the banner
+            $banner->update($validatedData);
+
+            return redirect()->route('admin.banners.index')
+                ->with('success', 'Banner updated successfully.');
+        } catch (\Exception $e) {
+            \Log::error('Error updating banner:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Error updating banner: ' . $e->getMessage());
         }
-
-        // Update the banner details in the database
-        $banner->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image' => $imagePath,
-            'link' => $request->link,
-            'is_active' => $request->has('is_active'),
-            'order' => $request->order ?? 0,
-        ]);
-
-        return redirect()->route('admin.banners.index')
-            ->with('success', 'Banner updated successfully.');
     }
 
     /**

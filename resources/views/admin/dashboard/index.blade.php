@@ -63,7 +63,7 @@
         <div class="bg-gray-800 rounded-lg shadow p-6">
             <div class="flex items-center">
                 <div class="text-gray-400">
-                    <i class="fas fa-folder fa-2x"></i>
+                 <!--   <i class="fas fa-folder fa-2x"></i>-->
                 </div>
             </div>
         </div>

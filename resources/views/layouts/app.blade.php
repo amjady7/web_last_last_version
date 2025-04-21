@@ -30,131 +30,168 @@ use App\Facades\Cart;
 
         <!-- Custom CSS -->
         <style>
-            :root {
-                --primary-color: #F7941D;
-                --secondary-color: #000000;
-                --light-gray: #2d2d2d;
-                --dark-gray: #6c757d;
-                --text-color: #ffffff;
-                --card-bg: #333333;
-                --border-color: #404040;
-            }
+    :root {
+        --primary-color: #F7941D;
+        --secondary-color: #000000;
+        --light-gray: #2d2d2d;
+        --dark-gray: #6c757d;
+        --text-color: #ffffff;
+        --card-bg: #333333;
+        --border-color: #404040;
+    }
 
-            .top-bar {
-                background-color: var(--secondary-color);
-                color: var(--text-color);
-                padding: 0.5rem 0;
-            }
+    /* Top Bar */
+    .top-bar {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        padding: 0.5rem 0;
+    }
 
-            .top-bar a {
-                color: var(--text-color);
-                text-decoration: none;
-            }
+    .top-bar a {
+        color: var(--text-color);
+        text-decoration: none;
+    }
 
-            .top-bar a:hover {
-                color: var(--primary-color);
-            }
+    .top-bar a:hover {
+        color: var(--primary-color);
+    }
 
-            .navbar {
-                background-color: #ffffff !important;
-                padding: 1rem 0;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
+    /* Navbar */
+    .navbar {
+        background-color: #ffffff !important;
+        padding: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-            .navbar-brand img {
-                height: 25px;
-                width: 25px;
-                max-width: 25px;
-                object-fit: contain;
-                transition: all 0.3s ease;
-            }
+    .navbar-brand img,
+    .nav-logo {
+        height: 25px;
+        width: auto;
+        max-width: 100px;
+        object-fit: contain;
+        transition: all 0.3s ease;
+    }
 
-            .nav-link {
-                color: var(--secondary-color) !important;
-                font-weight: 500;
-                padding: 0.5rem 1rem !important;
-            }
+    .nav-link {
+        color: var(--secondary-color) !important;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+    }
 
-            .nav-link:hover {
-                color: var(--primary-color) !important;
-            }
+    .nav-link:hover {
+        color: var(--primary-color) !important;
+    }
 
-            .nav-link.active {
-                color: var(--primary-color) !important;
-                font-weight: 600;
-            }
+    .nav-link.active {
+        color: var(--primary-color) !important;
+        font-weight: 600;
+    }
 
-            .cart-badge {
-                background-color: var(--secondary-color);
-                color: var(--text-color);
-                border-radius: 50%;
-                padding: 0.25rem 0.5rem;
-                font-size: 0.75rem;
-                position: absolute;
-                top: -5px;
-                right: -5px;
-            }
+    .cart-badge {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        border-radius: 50%;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
 
-            .nav-logo {
-                height: 25px;
-                width: auto;
-                max-width: 100px;
-                object-fit: contain;
-                transition: all 0.3s ease;
-            }
+    .navbar-collapse {
+        display: flex !important;
+        justify-content: flex-end;
+        align-items: center;
+        flex-grow: 1;
+    }
 
-            /* Responsive Styles */
-            @media (max-width: 768px) {
-                .top-bar {
-                    padding: 0.5rem 0;
-                }
+    /* Custom Hamburger Button */
+    .hamburger-menu {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+        cursor: pointer;
+    }
 
-                .top-bar .container {
-                    padding: 0 1rem;
-                }
+    .hamburger-menu span {
+        height: 3px;
+        background-color: var(--secondary-color);
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
 
-                .top-bar-contact {
-                    margin-bottom: 0.5rem;
-                }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .top-bar {
+            padding: 0.5rem 0;
+        }
 
-                .top-bar-auth {
-                    justify-content: flex-start !important;
-                }
+        .navbar {
+            padding: 0.5rem 0;
+        }
 
-                .navbar {
-                    padding: 0.5rem 0;
-                }
+        .navbar-brand img,
+        .nav-logo {
+            height: 20px;
+            max-width: 80px;
+        }
 
-                .navbar-brand img {
-                    height: 20px;
-                    max-width: 80px;
-                }
+        /* Navbar collapse behavior on small screens */
+        .navbar-collapse {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-radius: 0.25rem;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            align-items: flex-start;
+        }
 
-                .navbar-collapse {
-                    background-color: var(--primary-color);
-                    padding: 1rem;
-                    margin-top: 0.5rem;
-                    border-radius: 0.25rem;
-                }
+        /* Display navbar when active */
+        .navbar-collapse.show {
+            display: flex !important;
+        }
 
-                .nav-link {
-                    padding: 0.5rem 0 !important;
-                }
+        /* Hamburger Menu Button */
+        .hamburger-menu {
+            display: flex;
+        }
 
-                .navbar-toggler {
-                    border-color: var(--text-color);
-                }
+        /* Navbar items inside collapsible menu */
+        .navbar-nav {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
 
-                .navbar-toggler-icon {
-                    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-                }
+        .nav-item {
+            margin: 10px 0;
+        }
 
-                .nav-logo {
-                    height: 20px;
-                    max-width: 80px;
-                }
-            }
-        </style>
+        .nav-link {
+            padding: 0.5rem 1rem !important;
+            width: 100%;
+            color: #fff !important;
+            text-align: center;
+        }
+
+        /* Optional: Navbar link hover styles */
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+    }
+</style>
+
+
+
 
         @stack('styles')
     </head>
@@ -196,42 +233,49 @@ use App\Facades\Cart;
             </div>
 
             <!-- Navigation -->
-            <nav class="navbar navbar-expand-lg">
-                <div class="container">
-                    <a class="nav-brand" href="{{ route('home') }}">
-                        @if(isset($settings) && $settings->site_logo)
-                            <img src="{{ Storage::url($settings->site_logo) }}" alt="{{ $settings->site_title }}" class="nav-logo">
-                        @else
-                            <h1 class="nav-title">{{ isset($settings) ? $settings->site_title : config('app.name') }}</h1>
-                        @endif
+            <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ route('home') }}">
+            @if(isset($settings) && $settings->site_logo)
+                <img src="{{ Storage::url($settings->site_logo) }}" alt="{{ $settings->site_title }}" class="nav-logo">
+            @else
+                <h1 class="nav-title mb-0">{{ isset($settings) ? $settings->site_title : config('app.name') }}</h1>
+            @endif
+        </a>
+
+        <!-- Hamburger menu button -->
+        <div class="hamburger-menu" id="ham">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="navbar-collapse d-flex justify-content-end" id="navbarNav">
+            <ul class="navbar-nav" id="navbarNav">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="{{ route('cart.index') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge">{{ Cart::count() }}</span>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Products</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link position-relative" href="{{ route('cart.index') }}">
-                                    <i class="fas fa-shopping-cart"></i>
-                                    <span class="cart-badge">{{ Cart::count() }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
 
             <!-- Page Content -->
             <main>
@@ -253,6 +297,19 @@ use App\Facades\Cart;
 
             @include('layouts.partials.footer')
         </div>
+        <script>
+    // Get the hamburger menu button and the navbar-collapse
+    const customToggler = document.getElementById('ham');
+    const navbarCollapse = document.getElementById('navbarNav');
+
+    // Add an event listener for the hamburger menu button
+    customToggler.addEventListener('click', function () {
+        navbarCollapse.classList.toggle('show'); // Toggle the "show" class
+    });
+</script>
+
+    
+
 
         <!-- Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

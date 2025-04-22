@@ -8,19 +8,19 @@
     .mission-vision-container {
         display: flex;
         flex-direction: column;
-        gap: 8rem;
+        gap: 2rem;
     }
 
     @media (min-width: 768px) {
         .mission-vision-container {
             flex-direction: row;
             justify-content: space-between;
-            gap: 6rem;
+            gap: 1.5rem;
         }
 
         .mission-vision-card {
-            flex: 0 0 calc(50% - 3rem);
-            margin: 2rem 0;
+            flex: 0 0 calc(50% - 0.75rem);
+            margin: 0.5rem 0;
         }
     }
 
@@ -28,24 +28,24 @@
     .company-overview-container {
         display: flex;
         flex-direction: column;
-        gap: 8rem;
+        gap: 2rem;
     }
 
     @media (min-width: 768px) {
         .company-overview-container {
             flex-direction: row;
             align-items: center;
-            gap: 6rem;
+            gap: 1.5rem;
         }
 
         .company-overview-content {
-            flex: 0 0 calc(50% - 3rem);
-            margin: 2rem 0;
+            flex: 0 0 calc(50% - 0.75rem);
+            margin: 0.5rem 0;
         }
 
         .company-overview-image {
-            flex: 0 0 calc(50% - 3rem);
-            margin: 2rem 0;
+            flex: 0 0 calc(50% - 0.75rem);
+            margin: 0.5rem 0;
         }
     }
 
@@ -53,7 +53,7 @@
     .core-values-container {
         display: flex;
         flex-direction: column;
-        gap: 6rem;
+        gap: 1.5rem;
     }
 
     @media (min-width: 768px) {
@@ -61,12 +61,12 @@
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: space-between;
-            gap: 4rem;
+            gap: 1rem;
         }
 
         .core-value-card {
-            flex: 0 0 calc(33.333% - 3rem);
-            margin: 2rem 0;
+            flex: 0 0 calc(33.333% - 0.75rem);
+            margin: 0.5rem 0;
         }
     }
 
@@ -74,7 +74,7 @@
     .team-container {
         display: flex;
         flex-direction: column;
-        gap: 6rem;
+        gap: 1.5rem;
     }
 
     @media (min-width: 768px) {
@@ -82,12 +82,12 @@
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: space-between;
-            gap: 4rem;
+            gap: 1rem;
         }
 
         .team-member {
-            flex: 0 0 calc(33.333% - 3rem);
-            margin: 2rem 0;
+            flex: 0 0 calc(33.333% - 0.75rem);
+            margin: 0.5rem 0;
         }
     }
 
@@ -125,10 +125,10 @@
 
 <div class="bg-white">
     <!-- Hero Section -->
-    <div class="relative bg-orange-50 py-96">
-        <div class="container mx-auto px-32">
+    <div class="relative bg-orange-50 py-24">
+        <div class="container mx-auto px-8">
             <div class="text-center">
-                <h1 class="text-5xl font-bold text-gray-900 mb-32">Welcome to Our Story</h1>
+                <h1 class="text-5xl font-bold text-gray-900 mb-8">Welcome to Our Story</h1>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                     We're more than just an e-commerce platform - we're a community dedicated to bringing you the best products and experiences.
                 </p>
@@ -137,8 +137,8 @@
     </div>
 
     <!-- Company Overview -->
-    <div class="py-96 my-64">
-        <div class="container mx-auto px-32">
+    <div class="py-24 my-16">
+        <div class="container mx-auto px-8">
             <div class="company-overview-container">
                 <div class="company-overview-content text-center max-w-4xl mx-auto">
                     <h2 class="text-4xl font-bold text-gray-900 mb-32">Our Journey</h2>
@@ -158,8 +158,8 @@
     </div>
 
     <!-- Mission & Vision -->
-    <div class="bg-gray-50 py-96 my-64">
-        <div class="container mx-auto px-32">
+    <div class="bg-gray-50 py-24 my-16">
+        <div class="container mx-auto px-8">
             <div class="mission-vision-container">
                 <div class="mission-vision-card bg-white p-32 rounded-xl shadow-lg max-w-2xl mx-auto">
                     <h2 class="text-3xl font-bold text-gray-900 mb-32 text-center">Our Mission</h2>
@@ -190,9 +190,9 @@
     </div>
 
     <!-- Core Values -->
-    <div class="py-96 my-64">
-        <div class="container mx-auto px-32">
-            <h2 class="text-4xl font-bold text-center text-gray-900 mb-96">Our Core Values</h2>
+  
+        <div class="container mx-auto px-16">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-48">Our Core Values</h2>
             <div class="core-values-container mt-48">
                 <div class="core-value-card bg-white p-32 rounded-xl shadow-lg hover:shadow-xl transition duration-300 max-w-sm mx-auto">
                     <div class="text-orange-400 text-5xl mb-32 text-center">
@@ -229,9 +229,9 @@
     </div>
 
     <!-- Team Section -->
-    <div class="bg-gray-50 py-96 my-64">
-        <div class="container mx-auto px-32">
-            <h2 class="text-4xl font-bold text-center text-gray-900 mb-96">Meet Our Leadership Team</h2>
+    <div class="bg-gray-50 py-48 my-32">
+        <div class="container mx-auto px-16">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-48">Meet Our Leadership Team</h2>
             <div class="team-container mt-48">
                 <div class="team-member text-center max-w-sm mx-auto">
                     <div class="w-96 h-96 mx-auto mb-32 rounded-full overflow-hidden shadow-xl">

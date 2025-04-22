@@ -1,6 +1,6 @@
-<div class="products-container d-flex flex-wrap gap-4">
+<div class="products-container row g-4">
     @forelse($products as $product)
-        <div class="product-item" style="width: 300px;">
+        <div class="col-12 col-sm-6 col-md-3">
             <div class="card h-100 product-card">
                 <div class="position-relative">
                     <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top product-image" alt="{{ $product->name }}">
@@ -66,11 +66,35 @@
 @push('styles')
 <style>
     .products-container {
-        justify-content: flex-start;
+        margin: 0;
+    }
+    .product-card {
+        transition: transform 0.2s;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+    .product-image {
+        height: 200px;
+        object-fit: cover;
+    }
+    .badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+    }
+    .badge-featured {
+        background-color: #ffc107;
+        color: #000;
+    }
+    .badge-hot {
+        background-color: #dc3545;
+        color: #fff;
     }
     @media (max-width: 768px) {
-        .product-item {
-            width: 100% !important;
+        .product-image {
+            height: 150px;
         }
     }
     .quantity-input {

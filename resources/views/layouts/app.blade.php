@@ -65,9 +65,9 @@ use App\Facades\Cart;
 
     .navbar-brand img,
     .nav-logo {
-        height: 25px;
+        height: 35px;
         width: auto;
-        max-width: 100px;
+        max-width: 150px;
         object-fit: contain;
         transition: all 0.3s ease;
     }
@@ -234,46 +234,46 @@ use App\Facades\Cart;
 
             <!-- Navigation -->
             <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('home') }}">
-            @if(isset($settings) && $settings->site_logo)
-                <img src="{{ Storage::url($settings->site_logo) }}" alt="{{ $settings->site_title }}" class="nav-logo">
-            @else
-                <h1 class="nav-title mb-0">{{ isset($settings) ? $settings->site_title : config('app.name') }}</h1>
-            @endif
-        </a>
-
-        <!-- Hamburger menu button -->
-        <div class="hamburger-menu" id="ham">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <div class="navbar-collapse d-flex justify-content-end" id="navbarNav">
-            <ul class="navbar-nav" id="navbarNav">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link position-relative" href="{{ route('cart.index') }}">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-badge">{{ Cart::count() }}</span>
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{{ route('home') }}">
+                        @if(isset($settings) && $settings->site_logo)
+                            <img src="{{ Storage::url($settings->site_logo) }}" alt="{{ $settings->site_title }}" class="nav-logo">
+                        @else
+                            <h1 class="nav-title mb-0">{{ isset($settings) ? $settings->site_title : config('app.name') }}</h1>
+                        @endif
                     </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
+                    <!-- Hamburger menu button -->
+                    <div class="hamburger-menu" id="ham">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="navbar-collapse d-flex justify-content-end" id="navbarNav">
+                        <ul class="navbar-nav" id="navbarNav">
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" href="{{ route('cart.index') }}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span class="cart-badge">{{ Cart::count() }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
 
 
 

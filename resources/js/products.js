@@ -1,7 +1,43 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const filterForm = document.getElementById('filter-form');
+    const filterForm = document.getElementById('filterForm');
+    const mobileFilterForm = document.getElementById('mobileFilterForm');
+    const searchInput = document.getElementById('search');
+    const mobileSearchInput = document.getElementById('mobileSearch');
     const productsGrid = document.getElementById('products-grid');
     const paginationContainer = document.getElementById('pagination-container');
+
+    // Function to submit form with debounce
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Handle search input with debounce
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(function() {
+            filterForm.submit();
+        }, 500));
+    }
+
+    if (mobileSearchInput) {
+        mobileSearchInput.addEventListener('input', debounce(function() {
+            mobileFilterForm.submit();
+        }, 500));
+    }
+
+    // Auto-submit form when other filters change
+    document.querySelectorAll('#filterForm select, #filterForm input[type="checkbox"], #mobileFilterForm select, #mobileFilterForm input[type="checkbox"]').forEach(element => {
+        element.addEventListener('change', function() {
+            this.closest('form').submit();
+        });
+    });
 
     if (filterForm) {
         filterForm.addEventListener('submit', function(e) {

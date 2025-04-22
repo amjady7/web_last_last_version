@@ -14,6 +14,16 @@ class ProductController extends Controller
     {
         $query = Product::query()->where('is_active', true);
 
+        // Search filter
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('sku', 'like', "%{$search}%");
+            });
+        }
+
         // Price range filter
         if ($request->has('min_price') && $request->min_price !== null) {
             $query->where('price', '>=', $request->min_price);

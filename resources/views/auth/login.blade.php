@@ -47,8 +47,8 @@
 
                     <!-- Forgot Password -->
                     <div class="mb-4">
-                        <a href="{{ route('password.request') }}" class="text-decoration-none">
-                            Forgot password?
+                        <a href="{{ route('password.request') }}" class="text-decoration-none text-warning">
+                            <i class="fas fa-key me-1"></i> Forgot password?
                         </a>
                     </div>
 

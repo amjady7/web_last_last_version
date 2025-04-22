@@ -30,9 +30,6 @@
                                 <p class="text-sm text-gray-500">{{ $user->email }}</p>
                             </div>
                             <div class="flex space-x-2">
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900">
-                                    <i class="fas fa-edit"></i>
-                                </a>
                                 <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
@@ -77,9 +74,6 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex space-x-2">
-                                    <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
                                     <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')

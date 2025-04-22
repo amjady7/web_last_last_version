@@ -93,7 +93,6 @@
                 <div class="collapse mt-3" id="filterCollapse">
                     <div class="card">
                         <div class="card-body">
-                            <!-- Copy of the filter form for mobile -->
                             <form action="{{ route('products.index') }}" method="GET" id="mobileFilterForm">
                                 <!-- Search -->
                                 <div class="mb-3">

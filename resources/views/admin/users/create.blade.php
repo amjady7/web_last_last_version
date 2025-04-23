@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-100">Create New User</h1>
+        <h1 class="text-2xl font-bold text-gray-100">Create New Admin</h1>
     </div>
 
     <div class="bg-gray-800 rounded-lg shadow p-6">
@@ -39,23 +39,14 @@
                 <input type="password" name="password_confirmation" id="password_confirmation" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-300 focus:outline-none focus:border-blue-500">
             </div>
 
-            <div class="mb-4">
-                <label for="role" class="block text-gray-300 text-sm font-bold mb-2">Role</label>
-                <select name="role" id="role" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-300 focus:outline-none focus:border-blue-500">
-                    <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>Client</option>
-                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                </select>
-                @error('role')
-                    <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+            <input type="hidden" name="role" value="admin">
 
             <div class="flex items-center justify-end">
                 <a href="{{ route('admin.users.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">
                     Cancel
                 </a>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                    Create User
+                    Create Admin
                 </button>
             </div>
         </form>

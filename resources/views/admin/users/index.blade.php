@@ -7,7 +7,7 @@
     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
         <h2 class="text-xl font-semibold text-gray-800">Users</h2>
         <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <i class="fas fa-plus mr-2"></i> Add New User
+            <i class="fas fa-plus mr-2"></i> Add New Admin
         </a>
     </div>
 
